@@ -1,0 +1,23 @@
+问题 ： bean 不存在
+
+步骤
+1 查看这个bean是否注入成功
+2 junit单元测试，查看是否查询出结果
+3 spring 没有注入问题
+   1.applicationContext.xml没有注入bean
+   2.web.xml中没有绑定到service bean文件 ：
+            <!--DispatchServlet-->
+              <servlet>
+                  <servlet-name>DispatcherServlet</servlet-name>
+                  <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+                  <init-param>
+                      <param-name>contextConfigLocation</param-name>
+                      <param-value>classpath:applicationContext.xml</param-value>
+                  </init-param>
+                  <load-on-startup>1</load-on-startup>
+              </servlet>
+
+              <servlet-mapping>
+                  <servlet-name>DispatcherServlet</servlet-name>
+                  <url-pattern>/</url-pattern>
+              </servlet-mapping>
