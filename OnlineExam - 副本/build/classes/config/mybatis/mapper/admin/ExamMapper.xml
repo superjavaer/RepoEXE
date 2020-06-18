@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ischoolbar.programmer.dao.admin.ExamDao">
+	<!-- 考试插入操作 -->
+	<insert id="add" parameterType="com.ischoolbar.programmer.entity.admin.Exam">
+		insert into exam(id,subjectId,name,startTime,endTime,avaliableTime,questionNum,totalScore,passScore,singleQuestionNum,muiltQuestionNum,chargeQuestionNum,paperNum,examedNum,passNum,createTime) values(null,#{subjectId},#{name},#{startTime},#{endTime},#{avaliableTime},#{questionNum},#{totalScore},#{passScore},#{singleQuestionNum},#{muiltQuestionNum},#{chargeQuestionNum},#{paperNum},#{examedNum},#{passNum},#{createTime})
+	</insert>
+	<!-- 考试更新操作 -->
+	<update id="edit" parameterType="com.ischoolbar.programmer.entity.admin.Exam">
+		update exam set name = #{name},subjectId = #{subjectId},startTime = #{startTime},endTime = #{endTime},avaliableTime = #{avaliableTime},questionNum = #{questionNum},totalScore = #{totalScore},passScore = #{passScore},singleQuestionNum = #{singleQuestionNum},muiltQuestionNum = #{muiltQuestionNum},chargeQuestionNum = #{chargeQuestionNum} where id = #{id}
+	</update>
+	<!-- 考试统计数据更新操作 -->
+	<update id="updateExam" parameterType="com.ischoolbar.programmer.entity.admin.Exam">
+		update exam set paperNum = #{paperNum},examedNum = #{examedNum},passNum = #{passNum} where id = #{id}
+	</update>
+	<!-- 考试信息按题目查询 -->
+	<select id="findByTitle" parameterType="String" resultType="com.ischoolbar.programmer.entity.admin.Exam">
+		select * from exam where title = #{value}  
+	</select>
+	<!-- 考试信息按题目查询 -->
+	<select id="findById" parameterType="Long" resultType="com.ischoolbar.programmer.entity.admin.Exam">
+		select * from exam where id = #{value}  
+	</select>
+	<!-- 考试信息搜索查询 -->
+	<select id="findList" parameterType="Map" resultType="com.ischoolbar.programmer.entity.admin.Exam">
+		select * from exam where 1 = 1  
+		<if test="name != null">
+			and name like '%${name}%' 
+		</if>
+		<if test="subjectId != null">
+			and subjectId = #{subjectId}  
+		</if>
+		<if test="startTime != null">
+			and startTime &gt;= #{startTime}  
+		</if>
+		<if test="endTime != null">
+			and endTime &lt;= #{endTime}  
+		</if>
+		<if test="offset != null and pageSize != null">
+			limit #{offset},#{pageSize}
+		</if>
+	</select>
+	<!-- 考试信息搜索查询 -->
+	<select id="findListByUser" parameterType="Map" resultType="com.ischoolbar.programmer.entity.admin.Exam">
+		select * from exam where 1 = 1  
+		<if test="name != null">
+			and name like '%${name}%' 
+		</if>
+		<if test="subjectId != null">
+			and subjectId = #{subjectId}  
+		</if>
+		<if test="startTime != null">
+			and startTime &lt;= #{startTime}  
+		</if>
+		<if test="endTime != null">
+			and endTime &gt;= #{endTime}  
+		</if>
+		order by createTime desc 
+		<if test="offset != null and pageSize != null">
+			limit #{offset},#{pageSize} 
+		</if>
+	</select>
+	<!-- 用户模糊搜索总条数 -->
+	<select id="getTotalByUser" parameterType="Map" resultType="Integer">
+		select count(*) from exam where 1 = 1  
+		<if test="name != null">
+			and name like '%${name}%' 
+		</if>
+		<if test="subjectId != null">
+			and subjectId = #{subjectId}  
+		</if>
+		<if test="startTime != null">
+			and startTime &lt;= #{startTime}  
+		</if>
+		<if test="endTime != null">
+			and endTime &gt;= #{endTime}  
+		</if>
+	</select>
+	<!-- 模糊搜索总条数 -->
+	<select id="getTotal" parameterType="Map" resultType="Integer">
+		select count(*) from exam where 1 = 1  
+		<if test="name != null">
+			and name like '%${name}%' 
+		</if>
+		<if test="subjectId != null">
+			and subjectId = #{subjectId}  
+		</if>
+		<if test="startTime != null">
+			and startTime &gt;= #{startTime}  
+		</if>
+		<if test="endTime != null">
+			and endTime &lt;= #{endTime}  
+		</if>
+	</select>
+	<!-- 删除考试信息 -->
+	<delete id="delete" parameterType="Long">
+		delete from exam where id =${value}
+	</delete>
+</mapper>
